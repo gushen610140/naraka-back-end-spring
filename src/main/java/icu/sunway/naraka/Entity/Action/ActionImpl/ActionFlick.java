@@ -5,7 +5,6 @@ import icu.sunway.naraka.Entity.Player.AbstractPlayer;
 import lombok.Getter;
 
 public class ActionFlick extends AbstractAction {
-
     private final static int value = 300;
     private final static String intro = "轻击，如果对方选择重击，则受到500点伤害，对其他动作造成300点伤害。";
     private final static String displayName = "轻击";

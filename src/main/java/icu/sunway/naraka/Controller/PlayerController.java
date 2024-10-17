@@ -1,5 +1,6 @@
 package icu.sunway.naraka.Controller;
 
+import icu.sunway.naraka.Entity.Action.AbstractAction;
 import icu.sunway.naraka.Entity.Action.ActionMap;
 import icu.sunway.naraka.Entity.Player.AbstractPlayer;
 import icu.sunway.naraka.Entity.Result;
@@ -19,25 +20,30 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @PostMapping("/update_action")
+    @PutMapping("/update_action")
     public Result<String> updatePlayerAction(@RequestParam String playerId,
-                                             @RequestParam String action) {
+                                             @RequestParam String actionName) {
         try {
-            playerService.updatePlayerAction(playerId, Objects.requireNonNull(ActionMap.fromString(action)).getAction());
+            ActionMap actionMap = ActionMap.fromString(actionName);
+            if (actionMap == null) {
+                throw new IllegalArgumentException("Custom Exception: Invalid action name");
+            }
+            playerService.updatePlayerAction(playerId, actionMap.getAction());
         } catch (Exception e) {
-            return new Result<>(400, universalMessage.fail(), e.getMessage());
+            return new Result<>(500, universalMessage.fail(), e.getMessage());
         }
         return new Result<>(200, universalMessage.success(), null);
     }
 
     @PostMapping("/create")
     public Result<String> createPlayer(@RequestParam String nickName) {
+        String playerId;
         try {
-            playerService.createPlayer(nickName);
+            playerId = playerService.createPlayer(nickName);
         } catch (Exception e) {
-            return new Result<>(400, universalMessage.fail(), e.getMessage());
+            return new Result<>(500, universalMessage.fail(), e.getMessage());
         }
-        return new Result<>(200, universalMessage.success(), null);
+        return new Result<>(200, universalMessage.success(), playerId);
     }
 
     @GetMapping("/get")
@@ -46,9 +52,19 @@ public class PlayerController {
         try {
             player = playerService.getPlayer(playerId);
         } catch (Exception e) {
-            return new Result<>(400, universalMessage.fail() + e.getMessage(), null);
+            return new Result<>(500, universalMessage.fail() + e.getMessage(), null);
         }
         return new Result<>(200, universalMessage.success(), player);
+    }
+
+    @PutMapping("/update_add_card_random")
+    public Result<String> updatePlayerAddCardRandom(@RequestParam String playerId) {
+        try {
+            playerService.updatePlayerCardAddCardRandom(playerId);
+        } catch (Exception e) {
+            return new Result<>(500, universalMessage.fail(), e.getMessage());
+        }
+        return new Result<>(200, universalMessage.success(), null);
     }
 
 }

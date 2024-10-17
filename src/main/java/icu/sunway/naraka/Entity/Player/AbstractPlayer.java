@@ -5,6 +5,9 @@ import icu.sunway.naraka.Entity.Card.AbstractCard;
 import icu.sunway.naraka.Utils.UUIDUtils;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public abstract class AbstractPlayer {
     protected String id;
@@ -15,7 +18,7 @@ public abstract class AbstractPlayer {
     protected int rage;
     protected PlayerStatus status;
     protected AbstractAction action;
-    protected AbstractCard card;
+    protected List<AbstractCard> cardList;
 
     public AbstractPlayer(int healthMax, String showName) {
         this.healthMax = healthMax;
@@ -29,6 +32,6 @@ public abstract class AbstractPlayer {
         rage = 0;
         status = PlayerStatus.Waiting;
         action = null;
-        card = null;
+        cardList = new ArrayList<>();
     }
 }
