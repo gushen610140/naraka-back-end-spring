@@ -3,8 +3,9 @@ package icu.sunway.naraka.Entity.Player;
 import icu.sunway.naraka.Entity.Action.AbstractAction;
 import icu.sunway.naraka.Entity.Card.AbstractCard;
 import icu.sunway.naraka.Utils.UUIDUtils;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public abstract class AbstractPlayer {
     protected String id;
     protected int healthCur;
@@ -13,9 +14,7 @@ public abstract class AbstractPlayer {
     protected String nickName;
     protected int rage;
     protected PlayerStatus status;
-    @Setter
     protected AbstractAction action;
-    @Setter
     protected AbstractCard card;
 
     public AbstractPlayer(int healthMax, String showName) {
